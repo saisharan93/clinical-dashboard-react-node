@@ -59,7 +59,7 @@ npm install
 npm run dev
 Runs on:
 
-http://localhost:5000
+http://localhost:5001
 2️⃣ Frontend
 From the project root:
 
