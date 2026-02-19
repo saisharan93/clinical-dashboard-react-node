@@ -19,14 +19,16 @@ Designed to simulate hospital triage workflows using status-based prioritization
 
 ## 🏗 Architecture
 
+```
 clinical-dashboard-react-node/
-├── client/ # React (Vite) frontend
-└── src/ # Express backend API
-
+├── client/        # React (Vite) frontend
+└── src/           # Express backend API
+```
 
 - Frontend consumes REST API endpoints
 - Backend exposes structured JSON responses
 - Frontend and backend are designed for independent deployment
+
 
 ---
 
