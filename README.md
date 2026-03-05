@@ -4,8 +4,12 @@ A production-style, full-stack clinical monitoring dashboard built with **React 
 Designed to simulate triage workflows using **status-based prioritization**, KPI summaries, and an API-driven architecture.
 
 ## Live Demo
-- Frontend: (add after deploy)
-- API: (add after deploy)
+
+Frontend  
+https://clinical-dashboard-react-node-ec3yio6h4.vercel.app
+
+Backend API  
+https://clinical-dashboard-api.onrender.com/api/health
 
 ## Screenshots
 ![Overview](client/public/screenshots/overview.png)
