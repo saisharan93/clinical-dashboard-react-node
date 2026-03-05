@@ -1,13 +1,18 @@
 import express from "express";
 import cors from "cors";
 
+app.use(
+  cors({
+    origin: allowedOrigins
+  })
+);
+
 const app = express();
 const PORT = process.env.PORT || 5001;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  // add your Vercel URL later, example:
-  // "https://clinical-dashboard-yourname.vercel.app"
+  "https://clinical-dashboard-react-node-ec3yio6h4.vercel.app"
 ];
 
 app.use(
