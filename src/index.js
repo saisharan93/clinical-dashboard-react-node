@@ -1,12 +1,6 @@
 import express from "express";
 import cors from "cors";
 
-app.use(
-  cors({
-    origin: allowedOrigins
-  })
-);
-
 const app = express();
 const PORT = process.env.PORT || 5001;
 
@@ -18,13 +12,18 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, cb) => {
-      // allow server-to-server or curl with no origin
+      // allow server-to-server or curl
       if (!origin) return cb(null, true);
-      if (allowedOrigins.includes(origin)) return cb(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return cb(null, true);
+      }
+
       return cb(new Error("CORS blocked for this origin"));
-    },
+    }
   })
 );
+
 app.use(express.json());
 
 /**
@@ -67,5 +66,5 @@ app.get("/api/patients", (req, res) => {
  * START SERVER
  */
 app.listen(PORT, () => {
-  console.log(`🚀 Backend running on http://localhost:${PORT}`);
+  console.log(`🚀 Backend running on port ${PORT}`);
 });
