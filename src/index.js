@@ -4,7 +4,22 @@ import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  // add your Vercel URL later, example:
+  // "https://clinical-dashboard-yourname.vercel.app"
+];
+
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      // allow server-to-server or curl with no origin
+      if (!origin) return cb(null, true);
+      if (allowedOrigins.includes(origin)) return cb(null, true);
+      return cb(new Error("CORS blocked for this origin"));
+    },
+  })
+);
 app.use(express.json());
 
 /**

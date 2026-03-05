@@ -4,7 +4,7 @@ const getPollingInterval = (status) => {
     return status === "API running" ? 5000 : 15000;
   };  
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
 
 export default function App() {
   const [backendStatus, setBackendStatus] = useState("Checking...");
@@ -67,70 +67,90 @@ export default function App() {
   return (
     <div className="container">
       <h1>Clinical Dashboard</h1>
-
-      <div className="backend">
-  <strong>Backend Status:</strong> {backendStatus}
-
-  <div style={{ fontSize: 12, opacity: 0.7, marginTop: 4 }}>
-    Polling: {backendStatus === "API running" ? "Normal (5s)" : "Degraded (15s)"}
-  </div>
-
-  {err ? (
-    <div style={{ marginTop: 8, color: "#b00020" }}>
-      Error: {err}
-    </div>
-  ) : null}
-</div>
-
-
+      <p className="subtitle">
+        A data-heavy triage dashboard focused on clarity, accessibility, and deploy-safe API polling.
+      </p>
+  
+      <div className="panel backend">
+        <div className="badge" aria-live="polite">
+          <span
+            className="dot"
+            style={{
+              background:
+                backendStatus === "API running" ? "var(--stable)" : "var(--critical)",
+            }}
+          />
+          <span>
+            <strong>Backend:</strong> {backendStatus}
+          </span>
+        </div>
+  
+        <div className="badge">
+          Polling: {backendStatus === "API running" ? "Normal (5s)" : "Degraded (15s)"}
+        </div>
+      </div>
+  
+      {err ? <div className="error">Error: {err}</div> : null}
+  
       {loading ? (
-        <div>Loading...</div>
+        <div className="panel" style={{ marginTop: 14 }}>Loading…</div>
       ) : (
         <>
           <div className="summary">
             <div className="card stable">
-              <div>Stable</div>
-              <strong>{stableCount}</strong>
+              <div className="label">Stable</div>
+              <div className="value">{stableCount}</div>
             </div>
-
+  
             <div className="card observe">
-              <div>Observation</div>
-              <strong>{observationCount}</strong>
+              <div className="label">Under Observation</div>
+              <div className="value">{observationCount}</div>
             </div>
-
+  
             <div className="card critical">
-              <div>Critical</div>
-              <strong>{criticalCount}</strong>
+              <div className="label">Critical</div>
+              <div className="value">{criticalCount}</div>
             </div>
           </div>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Heart Rate</th>
-                <th>Blood Pressure</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {patients.map((p, idx) => (
-                <tr key={idx}>
-                  <td>{p.name}</td>
-                  <td>{p.age}</td>
-                  <td>{p.heartRate}</td>
-                  <td>{p.bloodPressure}</td>
-                  <td className={p.status === "Stable" ? "stable" : p.status === "Under Observation" ? "observe" : "critical"}>
-                    {p.status}
-                  </td>
+  
+          <div className="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Age</th>
+                  <th>Heart Rate</th>
+                  <th>Blood Pressure</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {patients.length === 0 ? <div style={{ marginTop: 12 }}>No patient data available.</div> : null}
+              </thead>
+  
+              <tbody>
+                {patients.map((p, idx) => {
+                  const statusClass =
+                    p.status === "Stable"
+                      ? "stable"
+                      : p.status === "Under Observation"
+                      ? "observe"
+                      : "critical";
+  
+                  return (
+                    <tr key={idx}>
+                      <td>{p.name}</td>
+                      <td>{p.age}</td>
+                      <td>{p.heartRate}</td>
+                      <td>{p.bloodPressure}</td>
+                      <td className={`status ${statusClass}`}>{p.status}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+  
+          <div className="footerNote">
+            {patients.length === 0 ? "No patient data available." : "Mock data for portfolio demonstration."}
+          </div>
         </>
       )}
     </div>
